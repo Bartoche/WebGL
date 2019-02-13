@@ -21,7 +21,8 @@ Arena = function(game) //on créée notre objet Arena qui prend l'objet game en 
 
       //Material pour le sol
       var groundMat = new BABYLON.StandardMaterial("groundMat", scene);
-      groundMat.diffuseTexture = new BABYLON.Texture("assets/images/pavewalk.jpg", scene);
+      groundMat.diffuseTexture = new BABYLON.Texture("assets/images/pavewalk/Stone_02_COLOR.jpg", scene);
+      //groundMat.bumpTexture = new BABYLON.Texture("assets/images/pavewalk/Stone_02_NRM.jpg", scene);
       groundMat.diffuseTexture.uScale = 1.2;
       groundMat.diffuseTexture.vScale = 5.0;
       groundMat.specularColor = new BABYLON.Color3(0,0,0);
@@ -42,14 +43,14 @@ Arena = function(game) //on créée notre objet Arena qui prend l'objet game en 
     //MESHS ET COLLISIONS //////////////////////////////////////////////////////
 
       // Colonnes
-      for(var i = 0; i < 10; i++)
+      for(var i = 0; i < 6; i++)
       {
         var cylinder1 = BABYLON.Mesh.CreateCylinder("cyl1", 100, 5, 5, 10, 10, scene);
-        cylinder1.position = new BABYLON.Vector3(-15,50, 20*i);
+        cylinder1.position = new BABYLON.Vector3(-15,50, 30*i);
         cylinder1.material = colMat;
 
         var cylinder2 = BABYLON.Mesh.CreateCylinder("cyl2", 100, 5, 5, 10, 10, scene);
-        cylinder2.position = new BABYLON.Vector3(15,50,20*i);
+        cylinder2.position = new BABYLON.Vector3(15,50,30*i);
         cylinder2.material = colMat;
 
       }
@@ -68,6 +69,17 @@ Arena = function(game) //on créée notre objet Arena qui prend l'objet game en 
       ground.position.z = 60;
       ground.material = groundMat;
       ground.checkCollisions = true;
+      //ground.setPhysicsState({ impostor: BABYLON.PhysicsEngine.SphereImpostor, mass: 0 });
+
+      var ground2 = BABYLON.Mesh.CreateBox("etage", 1, scene);
+      ground2.scaling.z = 40;
+      ground2.scaling.x = 250;
+      ground2.position.y = 100;
+      ground2.position.z = 60;
+      ground2.rotation.y = Math.PI/2;
+      ground2.material = groundMat;
+      ground2.checkCollisions = true;
+      //ground2.setPhysicsState({ impostor: BABYLON.PhysicsEngine.SphereImpostor, mass: 0 });
 
 
       //ANIMATIONS ////////////////////////////////////////////////////////////

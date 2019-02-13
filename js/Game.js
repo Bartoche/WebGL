@@ -82,9 +82,7 @@ Game.prototype = { //On définit les méthodes de notre objet dans son prototype
 
         //On autorise les collisions dans notre scène
         scene.collisionsEnabled = true;
-        var gravityVector = new BABYLON.Vector3(0, -9.81, 0);
-        var physicsPlugin = new BABYLON.CannonJSPlugin();
-        scene.enablePhysics(gravityVector, physicsPlugin);
+        //scene.enablePhysics(new BABYLON.Vector3(0,-10,0), new BABYLON.OimoJSPlugin());
 
         //On renvoie la scène créée
         return scene;
