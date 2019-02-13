@@ -125,6 +125,10 @@ Arena = function(game) //on créée notre objet Arena qui prend l'objet game en 
     	 skybox.material = sMaterial;
 
 
+    // INITIALISATION DE LA PLATEFORME ////////////////////////////////////////
+    this._initPlateforme(scene);
+
+
 };
 
 Arena.prototype={
@@ -136,9 +140,9 @@ Arena.prototype={
 
       //Ascenseur
       var platform = BABYLON.Mesh.CreateBox("plateform", 6, scene);
-      platform.position = new BABYLON.Vector3(0,0,-70);
-      platform.scaling.x = 5;
-      platform.scaling.z = 5;
+      platform.position = new BABYLON.Vector3(0,0,-100);
+      platform.scaling.x = 20;
+      platform.scaling.z = 20;
       platform.checkCollisions = true;
 
       //PLATFORM : UNE SORTE D'ASCENSEUR
@@ -147,23 +151,32 @@ Arena.prototype={
 
       var keys2 = [];
 
-        keys2.push({
+      keys2.push({  //position initiale
         frame: 0,
         value: -5
       });
-      keys2.push({
+      keys2.push({  //pause 2 seconde
         frame: 120,
-        value: 40
-      });
-      keys2.push({
-        frame: 240,
         value: -5
       });
+      keys2.push({  //montée
+        frame: 180,
+        value: 100
+      });
+      keys2.push({  //pause 1 seconde
+        frame: 240,
+        value: 100
+      });
+      keys2.push({  //descente
+        frame: 360,
+        value: -5
+      });
+
 
       animationPlatform.setKeys(keys2);
       platform.animations = [];
       platform.animations.push(animationPlatform);
-      scene.beginAnimation(platform, 0, 240, true);
+      scene.beginAnimation(platform, 0, 360, true);
     }
 
 }

@@ -23,8 +23,12 @@ Game = function(canvasId)
     this.scene = this._initScene(engine);
 
     //On crée nos objets player et arena
-    var _player = new Player(this, canvas); //this est l'objet Game
+    var _player = new Player(this, canvas, this.  scene); //this est l'objet Game
     var _arena = new Arena(this);
+
+    _player.camera = this._initCameraCollision(_player);
+
+
 
     /* à décommenter si vous êtes dans Weapon.js
     // Les roquettes générées dans Player.js
@@ -82,9 +86,15 @@ Game.prototype = { //On définit les méthodes de notre objet dans son prototype
 
         //On autorise les collisions dans notre scène
         scene.collisionsEnabled = true;
-        //scene.enablePhysics(new BABYLON.Vector3(0,-10,0), new BABYLON.OimoJSPlugin());
+        scene.enablePhysics();
 
         //On renvoie la scène créée
         return scene;
+    },
+
+    _initCameraCollision : function(player)
+    {
+      player.camera.checkCollisions = true;
+      return(player.camera);
     }
 };

@@ -1,4 +1,4 @@
-Player = function(game, canvas)
+Player = function(game, canvas, scene)
 {
   // _this est l'accès à la caméra à l'interieur de Player
   var _this = this;
@@ -11,6 +11,8 @@ Player = function(game, canvas)
 
   // Sensibilité angulaire
   _this.angularSensibility = 200;
+
+  _this.scene = scene;
 
   /* à décommenter si vous êtes dans Weapon.js
   // Si le tir est activé ou non
@@ -94,6 +96,36 @@ Player = function(game, canvas)
   }, false);
   */
 
+  //ANIMATION SAUT //////////////////////////////////////////////////////////
+  window.addEventListener("keyup", function(evt){
+		var sceneJump = _this.scene;
+		if (evt.keyCode == 32) {
+				_this.camera.animations = [];
+				var a = new BABYLON.Animation("a", "position.y", 20, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CYCLE);
+				// Animation keys
+				var keys = [];
+				keys.push({
+          frame: 0,
+					value: _this.camera.position.y
+				});
+				keys.push({
+          frame: 8,
+					value: _this.camera.position.y + 50
+				});
+				keys.push({
+          frame: 16,
+					value: _this.camera.position.y
+				});
+				a.setKeys(keys);
+				var easingFunction = new BABYLON.CircleEase();
+				easingFunction.setEasingMode(BABYLON.EasingFunction.EASINGMODE_EASEINOUT);
+				a.setEasingFunction(easingFunction);
+				_this.camera.animations.push(a);
+				sceneJump.beginAnimation(_this.camera, 0, 20, false);
+			}
+	}, false);
+
+
   // Initialisation de la caméra dans notre scène
   this._initCamera(this.game.scene, canvas);
 
@@ -132,6 +164,8 @@ Player.prototype = {
     // CAMERA ////////////////////////////////////////////////////////////////
     this.camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(10, 15, 150), scene);
     //this.camera.setPhysicsState({ impostor: BABYLON.PhysicsEngine.SphereImpostor, mass: 1 });
+    //this.camera.ellipsoid.PhysicsImpostor = new BABYLON.PhysicsImpostor(this.camera.ellipsoid, BABYLON.PhysicsImpostor.BoxImpostor, {mass:1}, scene);
+
 
     // On demande à la caméra de regarder au point zéro de la scène
     this.camera.setTarget(BABYLON.Vector3.Zero());
@@ -245,6 +279,7 @@ Player.prototype = {
             this.camera.playerBox.moveWithCollisions(right);
         }*/
 
+    /*
     // SAUT ///////////////////////////////////////////////////////////////////
     if(this.camera.jumpNeed) //on monte
     {
@@ -306,6 +341,7 @@ Player.prototype = {
           this.camera.playerBox.moveWithCollisions(new BABYLON.Vector3(0,(-this.camera.airTime/30) * relativeSpeed ,0));
       }
     }
+    */
   },
 
 };
